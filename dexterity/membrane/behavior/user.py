@@ -12,6 +12,7 @@ from zope.component import adapter
 from zope.component import getUtility
 from zope.interface import implementer
 from zope.interface import Interface
+from plone.app.textfield.value import RichTextValue
 
 import logging
 
@@ -164,6 +165,8 @@ class MembraneUserProperties(DxUserObject):
                 # Would give an error like this:
                 # ValueError: Property home_page: unknown type
                 value = u''
+            if type(value) is RichTextValue:
+                value = value.output
             properties[prop_name] = value
         return MutablePropertySheet(self.context.getId(), **properties)
 

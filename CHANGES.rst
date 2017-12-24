@@ -5,7 +5,8 @@ Changelog
 2.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Biography: plone.app.textfield RichText field for Plone 5
+   [ksuess]
 
 
 2.0 (2017-10-21)

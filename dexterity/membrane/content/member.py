@@ -9,6 +9,12 @@ from zope.interface import invariant
 
 import re
 
+from Products.CMFPlone.utils import getFSVersionTuple
+PLONE5 = getFSVersionTuple()[0] >= 5
+
+if PLONE5:
+    from plone.app.textfield import RichText
+    from plone.app.z3cform.widget import RichTextFieldWidget
 
 def is_email(value):
     """Is this an email address?
@@ -132,9 +138,18 @@ class IMember(IEmail):
         required=False,
         constraint=is_url,
     )
+    
 
-    directives.widget(bio="plone.app.z3cform.wysiwyg.WysiwygFieldWidget")
-    bio = schema.Text(
-        title=_(u"Biography"),
-        required=False,
-    )
+    
+    if PLONE5:
+        directives.widget("bio", RichTextFieldWidget)
+        bio = RichText(
+            title=_(u"Biography"),
+            required=False,
+        )        
+    else:
+        directives.widget(bio="plone.app.z3cform.wysiwyg.WysiwygFieldWidget")
+        bio = schema.Text(
+            title=_(u"Biography"),
+            required=False,
+        )
